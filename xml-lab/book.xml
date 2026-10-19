@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog>
+  <book id="B001">
+    <title>Web Development Basics</title>
+    <author>Alice Johnson</author>
+    <price>29.99</price>
+  </book>
+
+  <book id="B002">
+    <title>Learning JavaScript</title>
+    <author>Michael Smith</author>
+    <price>35.50</price>
+  </book>
+
+  <book id="B003">
+    <title>XML in Practice</title>
+    <author>Emma Brown</author>
+    <price>24.75</price>
+  </book>
+</catalog>

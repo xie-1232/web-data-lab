@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON User Profiles</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #f5f7f4;
+      color: #222;
+    }
+
+    header {
+      padding: 36px 20px;
+      text-align: center;
+      color: white;
+      background-color: #356652;
+    }
+
+    header h1 {
+      margin: 0 0 10px;
+      font-size: 34px;
+    }
+
+    header p {
+      margin: 0;
+      color: #e8f2ec;
+    }
+
+    main {
+      width: min(1050px, calc(100% - 32px));
+      margin: 28px auto 48px;
+    }
+
+    .profile-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+    }
+
+    .profile-card {
+      padding: 20px;
+      background-color: white;
+      border-top: 4px solid #356652;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .profile-card h2 {
+      margin: 0 0 16px;
+      color: #284f3f;
+      font-size: 23px;
+    }
+
+    .profile-card p {
+      margin: 8px 0;
+      line-height: 1.5;
+    }
+
+    .section-title {
+      margin-top: 16px;
+      padding-top: 12px;
+      color: #356652;
+      font-size: 17px;
+      font-weight: bold;
+      border-top: 1px solid #dde5df;
+    }
+
+    .message {
+      margin: 24px 0;
+      text-align: center;
+      font-size: 17px;
+    }
+
+    .error {
+      color: #b42318;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 27px;
+      }
+
+      main {
+        width: calc(100% - 24px);
+        margin-top: 20px;
+      }
+
+      .profile-list {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>User Profiles</h1>
+    <p>JSON data loaded using fetch and response.json()</p>
+  </header>
+
+  <main>
+    <div id="profile-list" class="profile-list"></div>
+    <p id="message" class="message">Loading user profiles...</p>
+  </main>
+
+  <script>
+    const profileList = document.getElementById('profile-list');
+    const message = document.getElementById('message');
+
+    function addInformation(card, label, value) {
+      const paragraph = document.createElement('p');
+
+      const labelElement = document.createElement('strong');
+      labelElement.textContent = label + ': ';
+
+      const valueElement = document.createElement('span');
+      valueElement.textContent = value;
+
+      paragraph.appendChild(labelElement);
+      paragraph.appendChild(valueElement);
+      card.appendChild(paragraph);
+    }
+
+    fetch('userProfiles.json')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Fetch error: ' + response.status);
+        } else {
+          return response.json();
+        }
+      })
+      .then(data => {
+        const profiles = data.profiles;
+        message.hidden = true;
+
+        profiles.forEach(profile => {
+          const card = document.createElement('article');
+          card.className = 'profile-card';
+
+          const name = document.createElement('h2');
+          name.textContent = profile.firstName + ' ' + profile.lastName;
+          card.appendChild(name);
+
+          addInformation(card, 'Email', profile.email);
+          addInformation(card, 'Date of Birth', profile.dateOfBirth);
+
+          const addressTitle = document.createElement('p');
+          addressTitle.className = 'section-title';
+          addressTitle.textContent = 'Address';
+          card.appendChild(addressTitle);
+
+          const address = profile.address;
+          const fullAddress =
+            address.street + ', ' +
+            address.city + ', ' +
+            address.state + ' ' +
+            address.zipCode;
+
+          addInformation(card, 'Street', address.street);
+          addInformation(card, 'City', address.city);
+          addInformation(card, 'State', address.state);
+          addInformation(card, 'Zip Code', address.zipCode);
+          addInformation(card, 'Full Address', fullAddress);
+
+          const preferencesTitle = document.createElement('p');
+          preferencesTitle.className = 'section-title';
+          preferencesTitle.textContent = 'Preferences';
+          card.appendChild(preferencesTitle);
+
+          const preferences = profile.preferences;
+
+          addInformation(card, 'Theme', preferences.theme);
+          addInformation(card, 'Language', preferences.language);
+          addInformation(card, 'Notifications', String(preferences.notifications));
+          addInformation(card, 'Newsletter Subscription', String(preferences.subscription));
+
+          profileList.appendChild(card);
+        });
+      })
+      .catch(error => {
+        message.hidden = false;
+        message.className = 'message error';
+        message.textContent = error.message;
+        console.error(error);
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XML Book Catalogue</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #f4f6f8;
+      color: #222;
+    }
+
+    header {
+      padding: 36px 20px;
+      text-align: center;
+      color: white;
+      background-color: #315f8c;
+    }
+
+    header h1 {
+      margin: 0 0 10px;
+      font-size: 34px;
+    }
+
+    header p {
+      margin: 0;
+      color: #e6eef7;
+    }
+
+    main {
+      width: min(1000px, calc(100% - 32px));
+      margin: 28px auto 48px;
+    }
+
+    .book-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 18px;
+    }
+
+    .book-card {
+      padding: 20px;
+      background-color: white;
+      border-top: 4px solid #315f8c;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .book-card h2 {
+      min-height: 54px;
+      margin: 12px 0 16px;
+      font-size: 21px;
+      line-height: 1.4;
+    }
+
+    .book-card p {
+      margin: 8px 0;
+      line-height: 1.5;
+    }
+
+    .book-id {
+      display: inline-block;
+      padding: 4px 10px;
+      color: #315f8c;
+      font-size: 14px;
+      font-weight: bold;
+      background-color: #e7f0fa;
+      border-radius: 12px;
+    }
+
+    .price {
+      color: #1e6b38;
+      font-weight: bold;
+    }
+
+    .message {
+      margin: 24px 0;
+      text-align: center;
+      font-size: 17px;
+    }
+
+    .error {
+      color: #b42318;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 27px;
+      }
+
+      main {
+        width: calc(100% - 24px);
+        margin-top: 20px;
+      }
+
+      .book-card h2 {
+        min-height: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Book Catalogue</h1>
+    <p>XML data loaded using fetch and DOMParser</p>
+  </header>
+
+  <main>
+    <div id="book-list" class="book-list"></div>
+    <p id="message" class="message">Loading book information...</p>
+  </main>
+
+  <script>
+    const bookList = document.getElementById('book-list');
+    const message = document.getElementById('message');
+
+    fetch('book.xml')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Fetch error: ' + response.status);
+        }
+
+        return response.text();
+      })
+      .then(xmlText => {
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+
+        const parserError = xmlDoc.getElementsByTagName('parsererror')[0];
+
+        if (parserError) {
+          throw new Error('The XML file is not well-formed.');
+        }
+
+        const books = xmlDoc.getElementsByTagName('book');
+        message.hidden = true;
+
+        for (let i = 0; i < books.length; i++) {
+          const book = books[i];
+
+          const id = book.getAttribute('id');
+          const title = book.getElementsByTagName('title')[0].textContent;
+          const author = book.getElementsByTagName('author')[0].textContent;
+          const price = book.getElementsByTagName('price')[0].textContent;
+
+          const card = document.createElement('article');
+          card.className = 'book-card';
+
+          const idElement = document.createElement('span');
+          idElement.className = 'book-id';
+          idElement.textContent = 'Book ID: ' + id;
+
+          const titleElement = document.createElement('h2');
+          titleElement.textContent = title;
+
+          const authorElement = document.createElement('p');
+          authorElement.textContent = 'Author: ' + author;
+
+          const priceElement = document.createElement('p');
+          priceElement.className = 'price';
+          priceElement.textContent = 'Price: $' + price;
+
+          card.appendChild(idElement);
+          card.appendChild(titleElement);
+          card.appendChild(authorElement);
+          card.appendChild(priceElement);
+
+          bookList.appendChild(card);
+        }
+      })
+      .catch(error => {
+        message.hidden = false;
+        message.className = 'message error';
+        message.textContent = error.message;
+        console.error(error);
+      });
+  </script>
+</body>
+</html>

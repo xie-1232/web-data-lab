@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Data Lab</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #f4f4f5;
+      color: #222;
+    }
+
+    header {
+      padding: 40px 20px;
+      text-align: center;
+      color: white;
+      background-color: #3d3d56;
+    }
+
+    header h1 {
+      margin: 0 0 10px;
+      font-size: 32px;
+    }
+
+    header p {
+      margin: 0;
+      color: #dcdce8;
+    }
+
+    main {
+      width: min(760px, calc(100% - 32px));
+      margin: 32px auto 56px;
+    }
+
+    .lab-link {
+      display: block;
+      margin-bottom: 18px;
+      padding: 22px 24px;
+      color: inherit;
+      text-decoration: none;
+      background-color: white;
+      border-left: 5px solid #3d3d56;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .lab-link h2 {
+      margin: 0 0 8px;
+      font-size: 21px;
+    }
+
+    .lab-link p {
+      margin: 0;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    .lab-link:hover {
+      background-color: #f0f0f6;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 26px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Web Data Lab</h1>
+    <p>XML and JSON lab exercises</p>
+  </header>
+
+  <main>
+    <a class="lab-link" href="xml-lab/">
+      <h2>Lab 1: XML Book Catalogue</h2>
+      <p>Create and validate book.xml, then load and display the book data with fetch and DOMParser.</p>
+    </a>
+
+    <a class="lab-link" href="json-lab/">
+      <h2>Lab 2: JSON User Profiles</h2>
+      <p>Create and validate userProfiles.json, then load and display the user profiles with fetch and response.json().</p>
+    </a>
+  </main>
+</body>
+</html>

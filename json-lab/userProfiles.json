@@ -1,0 +1,58 @@
+{
+  "profiles": [
+    {
+      "firstName": "Alice",
+      "lastName": "Johnson",
+      "email": "alice.johnson@example.com",
+      "dateOfBirth": "2003-04-18",
+      "address": {
+        "street": "12 Green Street",
+        "city": "Sydney",
+        "state": "NSW",
+        "zipCode": "2000"
+      },
+      "preferences": {
+        "theme": "light",
+        "language": "English",
+        "notifications": true,
+        "subscription": true
+      }
+    },
+    {
+      "firstName": "Michael",
+      "lastName": "Smith",
+      "email": "michael.smith@example.com",
+      "dateOfBirth": "2002-11-03",
+      "address": {
+        "street": "48 King Road",
+        "city": "Melbourne",
+        "state": "VIC",
+        "zipCode": "3000"
+      },
+      "preferences": {
+        "theme": "dark",
+        "language": "English",
+        "notifications": false,
+        "subscription": true
+      }
+    },
+    {
+      "firstName": "Emma",
+      "lastName": "Brown",
+      "email": "emma.brown@example.com",
+      "dateOfBirth": "2004-01-27",
+      "address": {
+        "street": "9 River Avenue",
+        "city": "Brisbane",
+        "state": "QLD",
+        "zipCode": "4000"
+      },
+      "preferences": {
+        "theme": "light",
+        "language": "Chinese",
+        "notifications": true,
+        "subscription": false
+      }
+    }
+  ]
+}
