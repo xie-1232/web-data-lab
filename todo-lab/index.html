@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do List with Local Storage</title>
+</head>
+<body>
+
+  <h2>My To-Do List</h2>
+
+  <input type="text" id="taskInput" placeholder="Enter a task">
+  <button onclick="addTask()">Add Task</button>
+
+  <ul id="taskList"></ul>
+
+  <script>
+    // Load saved tasks from Local Storage when the page opens.
+    // Tasks are stored as a JSON string under the key 'tasks'.
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+    function saveTasks() {
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    function showTasks() {
+      const list = document.getElementById('taskList');
+      list.innerHTML = '';
+
+      tasks.forEach(function (task, index) {
+        const li = document.createElement('li');
+        li.textContent = task + ' ';
+
+        const removeBtn = document.createElement('button');
+        removeBtn.textContent = 'Remove';
+        removeBtn.onclick = function () {
+          removeTask(index);
+        };
+
+        li.appendChild(removeBtn);
+        list.appendChild(li);
+      });
+    }
+
+    function addTask() {
+      const input = document.getElementById('taskInput');
+      const task = input.value.trim();
+
+      if (task === '') {
+        return;
+      }
+
+      tasks.push(task);
+      saveTasks();
+      showTasks();
+      input.value = '';
+      input.focus();
+    }
+
+    function removeTask(index) {
+      tasks.splice(index, 1);
+      saveTasks();
+      showTasks();
+    }
+
+    // Show the saved tasks straight away
+    showTasks();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML5 Canvas Smiley</title>
+</head>
+<body>
+
+  <canvas id="myCanvas" width="400" height="400"></canvas>
+
+  <script>
+    const canvas = document.getElementById('myCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // 1. light green background
+    ctx.fillStyle = 'lightgreen';
+    ctx.fillRect(0, 0, 400, 400);
+
+    // 2. yellow face with a dark outline
+    ctx.beginPath();
+    ctx.arc(200, 180, 160, 0, Math.PI * 2);
+    ctx.fillStyle = 'yellow';
+    ctx.fill();
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = '#333';
+    ctx.stroke();
+
+    // 3. two black eyes
+    ctx.fillStyle = 'black';
+    ctx.beginPath();
+    ctx.arc(145, 150, 13, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(255, 150, 13, 0, Math.PI * 2);
+    ctx.fill();
+
+    // 4. nose (a simple straight line)
+    ctx.beginPath();
+    ctx.moveTo(200, 195);
+    ctx.lineTo(200, 225);
+    ctx.stroke();
+
+    // 5. smiling mouth (an arc, anticlockwise so it curves downwards)
+    ctx.beginPath();
+    ctx.arc(200, 228, 42, Math.PI * 1.1, Math.PI * 1.9, true);
+    ctx.stroke();
+
+    // 6. caption text under the face
+    ctx.fillStyle = 'green';
+    ctx.font = 'bold 19px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('The Canvas brought me to life!', 200, 385);
+  </script>
+
+</body>
+</html>
